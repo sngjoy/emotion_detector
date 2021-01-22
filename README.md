@@ -24,12 +24,18 @@ Option 1: Run it as a local web app
 streamlit run src\app.py
 ```
 
-Option 2: Run `detection_emotion_video.py` file
+Option 2: Run it as a python module
 ```
 python src\detect_emotion_video.py
 ```
 
-## Dataset
-https://www.kaggle.com/mahmoudima/mma-facial-expression
+## Model
+The current model `emo.h5` has an accuracy of 66%.  
 
-To train retrain model, edit `model.py` in `src` folder and place the downloaded dataset in a `data` folder in the main directory.
+## Dataset
+Dataset is obtained from https://www.kaggle.com/mahmoudima/mma-facial-expression
+To retrain model, edit `model.py` in `src` folder and place the downloaded dataset in a `data` folder in the main directory.
+
+## Future Developments
+- Improving on model accuracy
+- Adding more emotion classes

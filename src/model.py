@@ -2,6 +2,7 @@ import tensorflow as tf
 from tensorflow.keras.layers import Conv2D, BatchNormalization, MaxPooling2D, Dropout, Flatten, Dense, Input
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from sklearn.metrics import classification_report, confusion_matrix
+from dataloader import DataLoader
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
@@ -219,4 +220,12 @@ class Model:
             """
             self.model.save(path)
             
-
+if __name__ == "__main__":
+    dl = DataLoader('data', 128)
+    dl.init_generator()
+    train_data, val_data, test_data = dl.load_data()
+    model = Model(lr=0.001, epochs=50)
+    model.train(train_data, val_data)
+    model.predict(test_data)
+    model.error_evaluation(test_data)
+    model.save_model('model/model.h5')
