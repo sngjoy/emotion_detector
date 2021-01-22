@@ -45,15 +45,17 @@ def detect_and_predict_emotions(frame, faceNet, emotionsNet, threshold):
             # extract the face ROI, convert it from BGR to RGB channel
             # ordering, resize it to 24x24, and preprocess it
             face = frame[startY:endY, startX:endX]
-            face = cv2.cvtColor(face, cv2.COLOR_BGR2RGB)
-            face = cv2.resize(face, (48, 48)) # the input size for our model
-            face = img_to_array(face)
-            # face = preprocess_input(face)
-            face = np.expand_dims(face, axis=0)
-            
-            # add the face and bounding boxes to their respective lists
-            locs.append((startX, startY, endX, endY))
-            preds.append(emotionsNet.predict(face)[0].tolist())
+            try:
+                face = cv2.cvtColor(face, cv2.COLOR_BGR2RGB)
+                face = cv2.resize(face, (48, 48)) # the input size for our model
+                face = img_to_array(face)
+                # face = preprocess_input(face)
+                face = np.expand_dims(face, axis=0)            
+                # add the face and bounding boxes to their respective lists
+                locs.append((startX, startY, endX, endY))
+                preds.append(emotionsNet.predict(face)[0].tolist())
+            except:
+                continue
     return (locs, preds)
 
 def start_video(faceNet, emotionsNet):
