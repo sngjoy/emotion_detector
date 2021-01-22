@@ -1,4 +1,4 @@
-# Emotion Detector
+# Emotions Detector
 ### Introduction
 This project aims to detect and classify emotions of a person's face into one of the 5 emotion classes - Happiness, Neutral, Sadness, Angry and Surprised - using deep convolutional neural networks.
 
@@ -19,10 +19,17 @@ pip install -r requirements.txt
 ```
 
 #### Step 3: 
-Run the detection_emotion_video python file
+Option 1: Run it as a local web app
 ```
 streamlit run src\app.py
 ```
 
+Option 2: Run `detection_emotion_video.py` file
+```
+python src\detect_emotion_video.py
+```
+
 ## Dataset
 https://www.kaggle.com/mahmoudima/mma-facial-expression
+
+To train retrain model, edit `model.py` in `src` folder and place the downloaded dataset in a `data` folder in the main directory.
