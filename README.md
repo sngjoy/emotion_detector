@@ -1,6 +1,6 @@
 # Emotions Detector
 ### Introduction
-This project aims to detect and classify emotions of a person's face into one of the 5 emotion classes - Happiness, Neutral, Sadness, Angry and Surprised - using deep convolutional neural networks.
+This project aims to detect and classify emotions of a person's face into one of the 5 classes of emotions - angry, happy, neutral, sad and surprise - using deep convolutional neural networks.
 
 Tensorflow was used to build and train the CNN model. OpenCV was used to work with video streams and video files. Streamlit was used to build the front end web application.
 
@@ -19,22 +19,56 @@ pip install -r requirements.txt
 ```
 
 #### Step 3: 
-Option 1: Run it as a local web app
+Run the app!
 ```
-streamlit run src\app.py
-```
-
-Option 2: Run it as a python module
-```
-python src\detect_emotion_video.py
+streamlit run src/app.py
 ```
 
-## Model
-The current model `emo.h5` has an accuracy of 66%.  
+If the app does not work, you could run it as a python module.
+```
+python src/detect_emotion_video.py
+```
+
+## About the Model
+##### Model Architecture
+The CNN model consists of the following layers:
+- Convolution (64 Filters)
+    - Conv2D
+    - Batch Norm 
+    - Conv2D
+    - Batch Norm
+    - Max Pool
+    - Dropout
+- Convolution (128 Filters)
+- Convolution (256 Filters)
+- FC Batch Norm Dropout
+- Softmax Output 
+
+##### Model Parameters
+Loss function: Categorical Cross Entropy
+- Optimizer: Adam
+- Learning Rate: 0.0001
+- Batch Size: 512
+- Train-Val-Test Split:
+    - Training Images: 84,878
+    - Validation Images: 16,041
+    - Testing Images: 16,010
+
+##### Model Performance
+The current model `emo.h5` has a test accuracy of 66%.  
 
 ## Dataset
-Dataset is obtained from https://www.kaggle.com/mahmoudima/mma-facial-expression
-To retrain model, edit `model.py` in `src` folder and place the downloaded dataset in a `data` folder in the main directory.
+Dataset used to train the model can be downloaded from https://www.kaggle.com/mahmoudima/mma-facial-expression
+
+Data augmentation is used on the train set with the following parameters:
+- Rotation Range: 15 degrees
+- Width Shift: 0.15
+- Height Shift: 0.15
+- Shear range: 0.15
+- Zoom range: 0.15
+- Horizontal Flip: True
+
+To retrain model, simple download the dataset and place it in a `data` folder in the main directory and edit the `dataloader.py` and `model.py` files in `src` folder accordingly.
 
 ## Future Developments
 - Improving on model accuracy

@@ -7,41 +7,40 @@ import cv2
 
 detections = None 
 def detect_and_predict_emotions(frame, faceNet, emotionsNet, threshold=0.5):
-	# grab the dimensions of the frame and then construct a blob from it
-	global detections 
-	(h, w) = frame.shape[:2]
-	blob = cv2.dnn.blobFromImage(frame, 1.0, (300, 300),(104.0, 177.0, 123.0))
+    # grab the dimensions of the frame and then construct a blob from it
+    global detections 
+    (h, w) = frame.shape[:2]
+    blob = cv2.dnn.blobFromImage(frame, 1.0, (300, 300),(104.0, 177.0, 123.0))
 
-	# pass the blob through the network and obtain the face detections
-	faceNet.setInput(blob)
-	detections = faceNet.forward()
+    # pass the blob through the network and obtain the face detections
+    faceNet.setInput(blob)
+    detections = faceNet.forward()
 
-	# initialize our list of faces, their corresponding locations,
-	# and the list of predictions from our face mask network
-	locs = []
-	preds = []
-	# loop over the detections
-	for i in range(0, detections.shape[2]):
-		# extract the confidence (i.e., probability) associated with
-		confidence = detections[0, 0, i, 2]
+    # initialize our list of faces, their corresponding locations,
+    # and the list of predictions from our face mask network
+    locs = []
+    preds = []
+    # loop over the detections
+    for i in range(0, detections.shape[2]):
+        # extract the confidence (i.e., probability) associated with
+        confidence = detections[0, 0, i, 2]
 
-		# filter out weak detections by ensuring the confidence is
-		# greater than the minimum confidence
-		if confidence>threshold:
-			# compute the (x, y)-coordinates of the bounding box for
-			# the object
-			box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
-			(startX, startY, endX, endY) = box.astype("int")
+        # filter out weak detections by ensuring the confidence is
+        # greater than the minimum confidence
+        if confidence>threshold:
+            # compute the (x, y)-coordinates of the bounding box for the object
+            box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
+            startX, startY, endX, endY = box.astype("int")
 
-			# ensure the bounding boxes fall within the dimensions of
-			# the frame
-			(startX, startY) = (max(0, startX), max(0, startY))
-			(endX, endY) = (min(w - 1, endX), min(h - 1, endY))
+            # ensure the bounding boxes fall within the dimensions of
+            # the frame
+            (startX, startY) = (max(0, startX), max(0, startY))
+            (endX, endY) = (min(w - 1, endX), min(h - 1, endY))
 
-			# extract the face ROI, convert it from BGR to RGB channel
-			# ordering, resize it to 24x24, and preprocess it
-			face = frame[startY:endY, startX:endX]
-			try:
+            # extract the face ROI, convert it from BGR to RGB channel
+            # ordering, resize it to 24x24, and preprocess it
+            face = frame[startY:endY, startX:endX]
+            try:
                 face = cv2.cvtColor(face, cv2.COLOR_BGR2RGB)
                 face = cv2.resize(face, (48, 48)) # the input size for our model
                 face = img_to_array(face)
@@ -52,7 +51,7 @@ def detect_and_predict_emotions(frame, faceNet, emotionsNet, threshold=0.5):
                 preds.append(emotionsNet.predict(face)[0].tolist())
             except:
                 continue
-	return (locs, preds)
+    return (locs, preds)
 
 def return_annotated_images(frame, faceNet, emotionsNet):
     labels=["angry", "happy", "neutral", "sad", "surprise"]
