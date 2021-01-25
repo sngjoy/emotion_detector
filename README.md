@@ -31,18 +31,29 @@ python src/detect_emotion_video.py
 
 ## About the Model
 ##### Model Architecture
+1. Object localisation:
+A pretrained face detector from OpenCV is used.
+It is based on Single Shot Detector (SSD) framework with a ResNet base network.
+The model can be found in the `face_detector` folder.
+    - `deploy.prototxt`: contains ResNet model architecture
+    - `res10_300x300_ssd_iter_140000.caffemodel`: contains weights of the model
+
+
+2. Object Classification
 The CNN model consists of the following layers:
-- Convolution (64 Filters)
-    - Conv2D
-    - Batch Norm 
-    - Conv2D
-    - Batch Norm
-    - Max Pool
-    - Dropout
-- Convolution (128 Filters)
-- Convolution (256 Filters)
-- FC Batch Norm Dropout
-- Softmax Output 
+    - Convolution (64 Filters)
+        - Conv2D
+        - Batch Norm 
+        - Conv2D
+        - Batch Norm
+        - Max Pool
+        - Dropout
+    - Convolution (128 Filters)
+    - Convolution (256 Filters)
+    - FC Batch Norm Dropout
+    - Softmax Output 
+    
+The model can be found in the `model` folder.
 
 ##### Model Parameters
 Loss function: Categorical Cross Entropy
@@ -55,7 +66,7 @@ Loss function: Categorical Cross Entropy
     - Testing Images: 16,010
 
 ##### Model Performance
-The current model `emo.h5` has a test accuracy of 66%.  
+The current model for emotions classification `emo.h5` has a test accuracy of 66%.  
 
 ## Dataset
 Dataset used to train the model can be downloaded from https://www.kaggle.com/mahmoudima/mma-facial-expression
