@@ -5,6 +5,7 @@ import numpy as np
 import imutils
 import cv2
 
+
 detections = None 
 def detect_and_predict_emotions(frame, faceNet, emotionsNet, threshold=0.5):
     # grab the dimensions of the frame and then construct a blob from it
