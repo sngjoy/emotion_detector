@@ -185,11 +185,11 @@ if __name__ == "__main__":
 
     # load our serialized face detector model
     print("[INFO] loading face detector model...")
-    prototxtPath = os.path.sep.join([FACE_MODEL_PATH, "deploy.prototxt"])
-    weightsPath = os.path.sep.join(
+    prototxt_path = os.path.sep.join([FACE_MODEL_PATH, "deploy.prototxt"])
+    weights_path = os.path.sep.join(
         [FACE_MODEL_PATH, "res10_300x300_ssd_iter_140000.caffemodel"]
     )
-    faceNet = cv2.dnn.readNet(prototxtPath, weightsPath)
+    faceNet = cv2.dnn.readNet(prototxt_path, weights_path)
 
     # load the emotions detector model
     print("[INFO] loading emotion detector model...")
